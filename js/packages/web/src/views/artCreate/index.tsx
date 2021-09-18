@@ -227,8 +227,8 @@ const CategoryStep = (props: {
       <Row className="call-to-action">
         <h2>Create a new item</h2>
         <p>
-          First time creating on Metaplex?{' '}
-          <a href="#">Read our creators’ guide.</a>
+          First time creating Crypto NFTs?{' '}
+          <a target="_top"  href="https://CryptoNFTs.net/guides/CreateNFT">Read our NFT Creators’ guide.</a>
         </p>
       </Row>
       <Row justify={width < 768 ? 'center' : 'start'}>
