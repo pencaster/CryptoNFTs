@@ -30,6 +30,7 @@ interface BlockhashAndFeeCalculator {
 }
 
 export type ENV =
+  | 'mainnet-figment'
   | 'mainnet-beta'
   | 'mainnet-beta (Solana)'
   | 'mainnet-beta (Serum)'
@@ -39,6 +40,11 @@ export type ENV =
   | 'lending';
 
 export const ENDPOINTS = [
+  {
+    name: 'mainnet-figment' as ENV,
+    endpoint: 'https://sol-rpc-mhowe776qq-uc.a.run.app/',
+    ChainId: ChainId.MainnetBeta,
+  },
   {
     name: 'mainnet-beta' as ENV,
     endpoint: 'https://api.metaplex.solana.com/',
