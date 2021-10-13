@@ -27,7 +27,11 @@ import { settle } from '../../actions/settle';
 import { startAuctionManually } from '../../actions/startAuctionManually';
 import { QUOTE_MINT } from '../../constants';
 import { useMeta } from '../../contexts';
-import { AuctionViewState, useAuctions } from '../../hooks';
+import {
+  AuctionViewState,
+  processAccountsIntoAuctionView,
+  useAuctions,
+} from '../../hooks';
 
 interface NotificationCard {
   id: string;
@@ -181,20 +185,28 @@ export function useSettlementAuctions({
 }) {
   const { accountByMint } = useUserAccounts();
   const walletPubkey = wallet?.publicKey?.toBase58();
-  const { bidderPotsByAuctionAndBidder } = useMeta();
-  const auctionsNeedingSettling = useAuctions(AuctionViewState.Ended);
+  const { bidderPotsByAuctionAndBidder, pullAuctionPage } = useMeta();
+  const auctionsNeedingSettling = [
+    ...useAuctions(AuctionViewState.Ended),
+    ...useAuctions(AuctionViewState.BuyNow),
+  ];
 
   const [validDiscoveredEndedAuctions, setValidDiscoveredEndedAuctions] =
     useState<Record<string, number>>({});
   useMemo(() => {
     const f = async () => {
       const nextBatch = auctionsNeedingSettling
-        .filter(
-          a =>
+        .filter(a => {
+          const isEndedInstantSale =
+            a.isInstantSale &&
+            a.items.length === a.auction.info.bidState.bids.length;
+
+          return (
             walletPubkey &&
             a.auctionManager.authority === walletPubkey &&
-            a.auction.info.ended(),
-        )
+            (a.auction.info.ended() || isEndedInstantSale)
+          );
+        })
         .sort(
           (a, b) =>
             (b.auction.info.endedAt?.toNumber() || 0) -
@@ -213,7 +225,12 @@ export function useSettlementAuctions({
                 av.auction.info.bidState.bids
                   .map(b => b.amount.toNumber())
                   .reduce((acc, r) => (acc += r), 0) > 0) ||
-              (balance.value.uiAmount || 0) > 0.01
+              // FIXME: Why 0.01? If this is used,
+              //        no auctions with lower prices (e.g. 0.0001) appear in notifications,
+              //        thus making settlement of such an auction impossible.
+              //        Temporarily making the number a lesser one.
+              // (balance.value.uiAmount || 0) > 0.01
+              (balance.value.uiAmount || 0) > 0.00001
             ) {
               setValidDiscoveredEndedAuctions(old => ({
                 ...old,
@@ -265,10 +282,48 @@ export function useSettlementAuctions({
         ),
         action: async () => {
           try {
+            // pull missing data and complete the auction view to settle.
+            const {
+              auctionDataExtended,
+              auctionManagersByAuction,
+              safetyDepositBoxesByVaultAndIndex,
+              metadataByMint,
+              bidderMetadataByAuctionAndBidder:
+                updatedBidderMetadataByAuctionAndBidder,
+              bidderPotsByAuctionAndBidder,
+              bidRedemptionV2sByAuctionManagerAndWinningIndex,
+              masterEditions,
+              vaults,
+              safetyDepositConfigsByAuctionManagerAndIndex,
+              masterEditionsByPrintingMint,
+              masterEditionsByOneTimeAuthMint,
+              metadataByMasterEdition,
+              metadataByAuction,
+            } = await pullAuctionPage(auctionView.auction.pubkey);
+            const completeAuctionView = processAccountsIntoAuctionView(
+              auctionView.auction.pubkey,
+              auctionView.auction,
+              auctionDataExtended,
+              auctionManagersByAuction,
+              safetyDepositBoxesByVaultAndIndex,
+              metadataByMint,
+              updatedBidderMetadataByAuctionAndBidder,
+              bidderPotsByAuctionAndBidder,
+              bidRedemptionV2sByAuctionManagerAndWinningIndex,
+              masterEditions,
+              vaults,
+              safetyDepositConfigsByAuctionManagerAndIndex,
+              masterEditionsByPrintingMint,
+              masterEditionsByOneTimeAuthMint,
+              metadataByMasterEdition,
+              {},
+              metadataByAuction,
+              undefined,
+            );
             await settle(
               connection,
               wallet,
-              auctionView,
+              completeAuctionView,
               // Just claim all bidder pots
               bidsToClaim,
               myPayingAccount?.pubkey,
