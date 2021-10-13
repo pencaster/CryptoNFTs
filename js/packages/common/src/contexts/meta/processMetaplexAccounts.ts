@@ -18,16 +18,19 @@ import {
   BidRedemptionTicketV2,
   decodeSafetyDepositConfig,
   SafetyDepositConfig,
-} from '../../models/metaplex';
+  decodeAuctionCache,
+  AuctionCache,
+  decodeStoreIndexer,
+  StoreIndexer,
+} from '../../models';
 import { ProcessAccountsFunc } from './types';
-import { METAPLEX_ID, programIds } from '../../utils';
-import { ParsedAccount } from '../accounts/types';
-import { cache } from '../accounts/cache';
+import { METAPLEX_ID, programIds, pubkeyToString } from '../../utils';
+import { ParsedAccount } from '../accounts';
+import { cache } from '../accounts';
 
 export const processMetaplexAccounts: ProcessAccountsFunc = async (
   { account, pubkey },
   setter,
-  useAll,
 ) => {
   if (!isMetaplexAccount(account)) return;
 
@@ -40,7 +43,7 @@ export const processMetaplexAccounts: ProcessAccountsFunc = async (
     ) {
       const storeKey = new PublicKey(account.data.slice(1, 33));
 
-      if ((STORE_ID && storeKey.equals(STORE_ID)) || useAll) {
+      if (STORE_ID && storeKey.equals(STORE_ID)) {
         const auctionManager = decodeAuctionManager(account.data);
 
         const parsedAccount: ParsedAccount<
@@ -92,6 +95,28 @@ export const processMetaplexAccounts: ProcessAccountsFunc = async (
       setter('payoutTickets', pubkey, parsedAccount);
     }
 
+    if (isAuctionCacheV1Account(account)) {
+      const cache = decodeAuctionCache(account.data);
+      const parsedAccount: ParsedAccount<AuctionCache> = {
+        pubkey,
+        account,
+        info: cache,
+      };
+      setter('auctionCaches', pubkey, parsedAccount);
+    }
+
+    if (isStoreIndexerV1Account(account)) {
+      const indexer = decodeStoreIndexer(account.data);
+      const parsedAccount: ParsedAccount<StoreIndexer> = {
+        pubkey,
+        account,
+        info: indexer,
+      };
+      if (parsedAccount.info.store == STORE_ID?.toBase58()) {
+        setter('storeIndexer', pubkey, parsedAccount);
+      }
+    }
+
     if (isPrizeTrackingTicketV1Account(account)) {
       const ticket = decodePrizeTrackingTicket(account.data);
       const parsedAccount: ParsedAccount<PrizeTrackingTicket> = {
@@ -112,7 +137,6 @@ export const processMetaplexAccounts: ProcessAccountsFunc = async (
       if (STORE_ID && pubkey === STORE_ID.toBase58()) {
         setter('store', pubkey, parsedAccount);
       }
-      setter('stores', pubkey, parsedAccount);
     }
 
     if (isSafetyDepositConfigV1Account(account)) {
@@ -152,14 +176,6 @@ export const processMetaplexAccounts: ProcessAccountsFunc = async (
           );
         }
       }
-
-      if (useAll) {
-        setter(
-          'creators',
-          parsedAccount.info.address + '-' + pubkey,
-          parsedAccount,
-        );
-      }
     }
   } catch {
     // ignore errors
@@ -168,7 +184,7 @@ export const processMetaplexAccounts: ProcessAccountsFunc = async (
 };
 
 const isMetaplexAccount = (account: AccountInfo<Buffer>) =>
-  (account.owner as unknown as any) === METAPLEX_ID;
+  account && pubkeyToString(account.owner) === METAPLEX_ID;
 
 const isAuctionManagerV1Account = (account: AccountInfo<Buffer>) =>
   account.data[0] === MetaplexKey.AuctionManagerV1;
@@ -196,3 +212,7 @@ const isSafetyDepositConfigV1Account = (account: AccountInfo<Buffer>) =>
 
 const isWhitelistedCreatorV1Account = (account: AccountInfo<Buffer>) =>
   account.data[0] === MetaplexKey.WhitelistedCreatorV1;
+const isAuctionCacheV1Account = (account: AccountInfo<Buffer>) =>
+  account.data[0] === MetaplexKey.AuctionCacheV1;
+const isStoreIndexerV1Account = (account: AccountInfo<Buffer>) =>
+  account.data[0] === MetaplexKey.StoreIndexerV1;
