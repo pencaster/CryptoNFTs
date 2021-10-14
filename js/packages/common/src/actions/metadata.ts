@@ -1,5 +1,5 @@
 import {
-  PublicKey,
+  //PublicKey,
   SystemProgram,
   SYSVAR_RENT_PUBKEY,
   TransactionInstruction,
@@ -52,6 +52,7 @@ export enum MetadataCategory {
   Video = 'video',
   Image = 'image',
   VR = 'vr',
+  HTML = 'html',
 }
 
 export type MetadataFile = {
@@ -253,8 +254,8 @@ export class Metadata {
   }
 
   public async init() {
-    const metadata = toPublicKey(programIds().metadata);
     /*
+    const metadata = toPublicKey(programIds().metadata);
     This nonce stuff doesnt work - we are doing something wrong here. TODO fix.
     if (this.editionNonce !== null) {
       this.edition = (
