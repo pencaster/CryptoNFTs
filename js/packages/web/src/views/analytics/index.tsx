@@ -250,7 +250,8 @@ const MemoizedBar = React.memo(
       },
     };
 
-    return <Bar data={histoData} options={histoOptions} />;
+   // return <Bar data={histoData} options={histoOptions} />;
+    return <Bar data={histoData} />;
   },
 );
 
