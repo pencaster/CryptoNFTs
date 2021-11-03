@@ -14,10 +14,11 @@ incremented for features.
 ### Features
 
 - Added Token Entangler smart contract and CLI
+- Add update authority command for candy machine
 
 ### Fixes
 
-- N/A
+- Fixes #840 - Claim button visible after claim.
 
 ### Breaking
 
