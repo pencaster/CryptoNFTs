@@ -14,10 +14,13 @@ incremented for features.
 ### Features
 
 - Added Token Entangler smart contract and CLI
+- Add update authority command for candy machine
+- Implemented NFT Packs Creation and Viewing Flow
+- Display items redeemed when running Candy Machine Show command
 
 ### Fixes
 
-- N/A
+- Fixes #840 - Claim button visible after claim.
 
 ### Breaking
 
