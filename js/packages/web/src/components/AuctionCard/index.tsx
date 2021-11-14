@@ -25,6 +25,8 @@ import {
   VaultState,
   BidStateType,
   WRAPPED_SOL_MINT,
+  Bid,
+  BidderPot,
 } from '@oyster/common';
 import {
   AuctionView,
@@ -225,6 +227,7 @@ export const AuctionCard = ({
   const [showBidPlaced, setShowBidPlaced] = useState<boolean>(false);
   const [showPlaceBid, setShowPlaceBid] = useState<boolean>(false);
   const [lastBid, setLastBid] = useState<{ amount: BN } | undefined>(undefined);
+  const [purchaseFinished, setPurchaseFinished] = useState<boolean>(false);
 
   const [showWarningModal, setShowWarningModal] = useState<boolean>(false);
   const [printingCost, setPrintingCost] = useState<number>();
@@ -233,10 +236,18 @@ export const AuctionCard = ({
 
   const mintKey = auctionView.auction.info.tokenMint;
   const balance = useUserBalance(mintKey);
-  const tokenInfo = useTokenList().mainnetTokens.filter(m=>m.address == mintKey)[0]
-  const symbol = tokenInfo? tokenInfo.symbol: mintKey == WRAPPED_SOL_MINT.toBase58()? "SOL": "CUSTOM"
+  const tokenInfo = useTokenList().mainnetTokens.filter(
+    m => m.address == mintKey,
+  )[0];
+  const symbol = tokenInfo
+    ? tokenInfo.symbol
+    : mintKey == WRAPPED_SOL_MINT.toBase58()
+    ? 'SOL'
+    : 'CUSTOM';
+
 
   const LAMPORTS_PER_MINT = tokenInfo? Math.ceil(10 ** tokenInfo.decimals): LAMPORTS_PER_SOL;
+
 
   //console.log("[--P]AuctionCard", tokenInfo, mintKey)
   const myPayingAccount = balance.accounts[0];
@@ -262,7 +273,9 @@ export const AuctionCard = ({
   const gapTick = auctionExtended
     ? auctionExtended.info.gapTickSizePercentage
     : 0;
-  const tickSize = auctionExtended?.info?.tickSize ? auctionExtended.info.tickSize : 0;
+  const tickSize = auctionExtended?.info?.tickSize
+    ? auctionExtended.info.tickSize
+    : 0;
   const tickSizeInvalid = !!(
     tickSize &&
     value &&
@@ -390,6 +403,34 @@ export const AuctionCard = ({
     auctionView.auction = newAuctionState[0];
     auctionView.myBidderPot = newAuctionState[1];
     auctionView.myBidderMetadata = newAuctionState[2];
+    if (
+      wallet.publicKey &&
+      auctionView.auction.info.bidState.type == BidStateType.EnglishAuction
+    ) {
+      const winnerIndex = auctionView.auction.info.bidState.getWinnerIndex(
+        wallet.publicKey.toBase58(),
+      );
+      if (winnerIndex === null)
+        auctionView.auction.info.bidState.bids.unshift(
+          new Bid({
+            key: wallet.publicKey.toBase58(),
+            amount: instantSalePrice || new BN(0),
+          }),
+        );
+      // It isnt here yet
+      if (!auctionView.myBidderPot)
+        auctionView.myBidderPot = {
+          pubkey: 'none',
+          //@ts-ignore
+          account: {},
+          info: new BidderPot({
+            bidderPot: 'dummy',
+            bidderAct: wallet.publicKey.toBase58(),
+            auctionAct: auctionView.auction.pubkey,
+            emptied: false,
+          }),
+        };
+    }
     // Claim the purchase
     try {
       await sendRedeemBid(
@@ -543,7 +584,7 @@ export const AuctionCard = ({
             <div className="show-place-bid">
               <AmountLabel
                 title="in your wallet"
-                displaySymbol={tokenInfo?.symbol || "CUSTOM"}
+                displaySymbol={tokenInfo?.symbol || 'CUSTOM'}
                 style={{ marginBottom: 0 }}
                 amount={balance.balance}
                 tokenInfo={tokenInfo}
@@ -649,7 +690,11 @@ export const AuctionCard = ({
                         ? `◎ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
                         : ''
                     }
-                    placeholder={ minBid === 0 ? `Place a Bid` : `Bid ${minBid} ${symbol} or more` }
+                    placeholder={
+                      minBid === 0
+                        ? `Place a Bid`
+                        : `Bid ${minBid} ${symbol} or more`
+                    }
                   />
                 </div>
                 <div className={'bid-buttons'}>
@@ -725,7 +770,7 @@ export const AuctionCard = ({
             <Spin />
           ) : (
             auctionView.isInstantSale &&
-            !isAlreadyBought && (
+            !isAlreadyBought && !purchaseFinished && (
               <Button
                 type="primary"
                 size="large"
