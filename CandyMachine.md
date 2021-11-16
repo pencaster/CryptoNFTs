@@ -1,11 +1,41 @@
+1. Prepare assets
+https://docs.metaplex.com/create-candy/prepare-assets
+https://hackmd.io/@levicook/HJcDneEWF
+
 $ solana --version
 $ cd js
 $ yarn install
 $ yarn bootstrap
-$ yarn start
+
+
+seller_fee_basis_points = royalty %* 100
+[3:02 AM]
+So 
+500 is 5%, 
+1000 is 10%
+10000 is 100%
+[3:02 AM]
+Why? because floating point maths and IEEE754.
+[3:02 AM]
+But you probably know that.
+
+
+solana-keygen recover --force --outfile  ~/.config/solana/mainnet.json 
+
+solana-keygen new --outfile ~/.config/solana/devnet.json
+
+
+solana config set --url https://solana--devnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
+
+solana config set --url https://solana--mainnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
+
+solana config set  --keypair ~/.config/solana/devnet.json
+solana config set  --keypair ~/.config/solana/mainnet.json
+
+$ solana config get
 
 $ solana balance
-$ solana config get
+
 
 Config File: C:\Users\krumh\.config\solana\cli\config.yml
 RPC URL: https://api.devnet.solana.com
@@ -14,19 +44,53 @@ Keypair Path: C:\Users\krumh\.config\solana\id.json
 
 ts-node  ./js/packages/cli/src/candy-machine-cli.ts  help
 
+
+
+
+
 ts-node ./js/packages/cli/src/candy-machine-cli.ts upload ./assets1 -n 1  --env devnet  --keypair ~/.config/solana/id.json 
 ts-node ./js/packages/cli/src/candy-machine-cli.ts verify  --env devnet --keypair ~/.config/solana/id.json 
 
+
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload ./assets1 -n 1  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
+
+
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets10 -n 11  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
+
+arweave-nft  --force-upload  --assets-from-json  -e mainnet-beta -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json assets10
+
+ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
+
+ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.00001 --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+
+create_candy_machine finished. candy machine pubkey: disSJ4pzLzdRsDiS8sEoDnfMkhJ11jBi9HsYsdXCiuk
+
+
+
+arweave-nft -e devnet -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json ./assets10
+
+
+
+
+
 ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env devnet --keypair ~/.config/solana/id.json --price 1 --sol-treasury-account 3mgEMZZ4jYCCc9N461PdDD423BEHWL7yCmwwKSozowE8  
+
+
 
 ts-node ./js/packages/cli/src/candy-machine-cli.ts update_candy_machine --env devnet --keypair ~/.config/solana/id.json --price 1 --date "22 Sep 2021 00:12:00 GMT"
 
-ts-node  ./js/packages/cli/src/candy-machine-cli.ts update_candy_machine --keypair ~/.config/solana/id.json --date '29 Oct 2022 00:00:00 GMT' --price 1
+ts-node ./js/packages/cli/src/candy-machine-cli.ts update_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.00001 --date "22 Sep 2021 00:12:00 GMT"
 
 create_candy_machine finished. candy machine pubkey: C9d3mN3wC62o7zmBbdjkamYPDZzXfwXQW8K7FgvtM2am
 
 
 mint with: 
+
+
+ts-node  ./js/packages/cli/src/candy-machine-cli.ts  mint_one_token --env devnet --keypair ~/.config/solana/id.json 
+
+ts-node  ./js/packages/cli/src/candy-machine-cli.ts  mint_one_token --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
+
 
 
 The only configuration needed is the one save in .env file:
@@ -46,3 +110,24 @@ REACT_APP_TREASURY_ADDRESS is where the the minting payments goes, of course thi
 REACT_APP_CANDY_START_DATE is the start date set with the command  set_start_date UNIX Time Stamp
 
 REACT_APP_SOLANA_NETWORK and REACT_APP_SOLANA_RPC_HOST are the two network’s references used, change them once ready to go in production on the mainnet
+
+
+DEV
+wallet public key: 3mgEMZZ4jYCCc9N461PdDD423BEHWL7yCmwwKSozowE8
+create_candy_machine finished. 
+candy machine pubkey: 6RcERbZrY98SbMK3cMxTUn3JbrYDMx8UDNXB5U5rN4Zu
+
+MAINNET
+wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+create_candy_machine finished. candy machine pubkey: FJKtciMZbVeF77wpr9zXRQFTkoowgyYyiDw9ooSDzkEg
+
+
+Beginning the upload for 1 (png+json) pairs
+started at: 1637072674575
+wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+Processing file: 0
+initializing config
+initialized config for a candy machine with publickey: HfGAPYTMvXxFQ1biNii6H7cSEemRGL93fJFzrKLEhXN9
+lamport cost to store assets1\0.png: 14282.049138810551
+Writing indices 0-0
+Done. Successful = true.
