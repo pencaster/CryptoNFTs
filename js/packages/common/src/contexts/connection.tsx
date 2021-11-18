@@ -31,10 +31,10 @@ interface BlockhashAndFeeCalculator {
 }
 
 export type ENDPOINT_NAME =
-  | 'mainnet-figment'
   | 'mainnet-beta'
   | 'mainnet-beta-solana'
   | 'mainnet-beta-serum'
+  | 'mainnet-figment'
   | 'testnet'
   | 'devnet'
   | 'localnet'
@@ -50,12 +50,6 @@ type Endpoint = {
 
 
 export const ENDPOINTS: Array<Endpoint> = [
-  {
-    name: 'mainnet-figment',
-    label: 'mainnet-figment',
-    url: 'https://sol-rpc-mhowe776qq-uc.a.run.app/',
-    chainId: ChainId.MainnetBeta,
-  },
   {
     name: 'mainnet-beta',
     label: 'mainnet-beta',
@@ -86,6 +80,12 @@ export const ENDPOINTS: Array<Endpoint> = [
     url: clusterApiUrl('devnet'),
     chainId: ChainId.Devnet,
   },
+  {
+    name: 'mainnet-figment',
+    label: 'mainnet-figment',
+    url: 'https://sol-rpc-mhowe776qq-uc.a.run.app/',
+    chainId: ChainId.MainnetBeta,
+  }
 ];
 
 const DEFAULT_ENDPOINT = ENDPOINTS[0];

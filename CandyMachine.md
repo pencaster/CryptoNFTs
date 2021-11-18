@@ -57,7 +57,10 @@ ts-node ./js/packages/cli/src/candy-machine-cli.ts upload ./assets1 -n 1  --env 
 
 ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets10 -n 11  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
 
-arweave-nft  --force-upload  --assets-from-json  -e mainnet-beta -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json assets10
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets  -n 67  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
+
+
+arweave-nft  --force-upload  --assets-from-json  -e mainnet-beta -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json assets
 
 ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
 
