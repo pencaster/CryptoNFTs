@@ -1,9 +1,9 @@
 {
-  "name": "DotVar-V1 #15",
+  "name": "DotVar-V1 #17",
   "symbol": "DV1",
-  "description": "Algorithm Generated Unique Variations Graphics where dots and circles constructed fluid structures connect and meet one another. #15 of 1965",
+  "description": "Algorithm Generated Unique Variations Graphics where dots and circles constructed fluid structures connect and meet one another. #17 of 1965",
   "seller_fee_basis_points": "1000",
-  "image": "15.png",
+  "image": "6.png",
   "attributes": [
     {
       "trait_type": "structure",
@@ -11,11 +11,11 @@
     },
     {
       "trait_type": "dots",
-      "value": "7"
+      "value": "5"
     },
     {
       "trait_type": "circles",
-      "value": "11"
+      "value": "8"
     },
     {
       "trait_type": "grid",
@@ -29,11 +29,11 @@
   "properties": {
     "files": [
       {
-        "uri": "15.png",
+        "uri": "6.png",
         "type": "image/png"
       },
       {
-        "uri": "15.svg",
+        "uri": "6.svg",
         "type": "image/svg+xml"
       }
     ],
