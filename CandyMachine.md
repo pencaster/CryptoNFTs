@@ -50,6 +50,12 @@ Recover Funds!!!!
 ts-node ./js/packages/cli/src/candy-machine-cli.ts  withdraw   --env mainnet-beta  --keypair ~/.config/solana/mainnet.json  
 _____________
 
+trace:
+ --log-level trace
+
+BUG: Cannot add to candy machine
+https://github.com/metaplex-foundation/metaplex/issues/884
+
 
 ****************************************************************
 DEVNET-MINTING
@@ -70,12 +76,35 @@ ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env devnet --keypair
 ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --price 0.000001  --env devnet --keypair ~/.config/solana/id.json --sol-treasury-account 3mgEMZZ4jYCCc9N461PdDD423BEHWL7yCmwwKSozowE8 
 .................................................................
 wallet public key: 3mgEMZZ4jYCCc9N461PdDD423BEHWL7yCmwwKSozowE8
-create_candy_machine finished. candy machine pubkey: BDyTqVqRHLWc6ZaF2S66G1Us11mPvGKSEQV4szfhNnEY
+create_candy_machine finished. candy machine pubkey: 2fWvEqjhsCHBsCsektDbDVKmE7M28jwusur7XG8mWSsm
 .................................................................
  ts-node  ./js/packages/cli/src/candy-machine-cli.ts  mint_one_token --env devnet --keypair ~/.config/solana/id.json  
 
 ****************************************************************
 
+
+****************************************************************
+MAINNET-MINTING
+----------------------------------------------------------------
+
+.................................................................
+solana config set --url https://solana--devnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
+solana config set  --keypair ~/.config/solana/id.json
+solana config get
+solana balance
+.................................................................
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets -n 78  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json  
+arweave-nft assets  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e mainnet-beta
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets -n 78  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json  
+ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
+ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.000001 --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+.................................................................
+wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+create_candy_machine finished. candy machine pubkey: 8bwHCA6dUsPNryYUqm7BnW225xZAcnwPQu1uCqpPdnTM
+.................................................................
+ ts-node  ./js/packages/cli/src/candy-machine-cli.ts  mint_one_token --env mainnet-beta  --keypair ~/.config/solana/mainnet.json   
+
+****************************************************************
 
 
 
@@ -95,7 +124,7 @@ ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets_11_20 -n 10   -
 arweave-nft assets_11_20  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e mainnet-beta
 ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets_11_20 -n 10  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
 ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
-ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --price 0.000001  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz 
+ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.000001 --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
 .................................................................
 
 .................................................................
