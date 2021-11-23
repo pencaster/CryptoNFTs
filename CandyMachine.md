@@ -29,7 +29,7 @@ solana config set --url https://solana--devnet.datahub.figment.io/apikey/d3e7317
 
 solana config set --url https://solana--mainnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
 
-solana config set  --keypair ~/.config/solana/devnet.json
+solana config set  --keypair ~/.config/solana/id.json
 solana config set  --keypair ~/.config/solana/mainnet.json
 
 $ solana config get
@@ -45,7 +45,95 @@ Keypair Path: C:\Users\krumh\.config\solana\id.json
 ts-node  ./js/packages/cli/src/candy-machine-cli.ts  help
 
 
+Recover Funds!!!!
+--------------
+ts-node ./js/packages/cli/src/candy-machine-cli.ts  withdraw   --env mainnet-beta  --keypair ~/.config/solana/mainnet.json  
+_____________
 
+
+****************************************************************
+DEVNET-MINTING
+----------------------------------------------------------------
+1. clear temp cache
+2. resources starting ffrom 0
+3. max 10
+.................................................................
+solana config set --url https://solana--devnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
+solana config set  --keypair ~/.config/solana/id.json
+solana config get
+solana balance
+.................................................................
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets_11_20 -n 10  --env devnet --keypair ~/.config/solana/id.json  
+arweave-nft assets_11_20  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e devnet
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets_11_20 -n 10  --env devnet --keypair ~/.config/solana/id.json  
+ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env devnet --keypair ~/.config/solana/id.json 
+ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --price 0.000001  --env devnet --keypair ~/.config/solana/id.json --sol-treasury-account 3mgEMZZ4jYCCc9N461PdDD423BEHWL7yCmwwKSozowE8 
+.................................................................
+wallet public key: 3mgEMZZ4jYCCc9N461PdDD423BEHWL7yCmwwKSozowE8
+create_candy_machine finished. candy machine pubkey: BDyTqVqRHLWc6ZaF2S66G1Us11mPvGKSEQV4szfhNnEY
+.................................................................
+ ts-node  ./js/packages/cli/src/candy-machine-cli.ts  mint_one_token --env devnet --keypair ~/.config/solana/id.json  
+
+****************************************************************
+
+
+
+
+****************************************************************
+MAINNET-MINTING
+----------------------------------------------------------------
+1. clear temp cache
+2. resources starting ffrom 0
+3. max 10
+.................................................................
+solana config set --url https://solana--mainnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
+solana config set  --keypair ~/.config/solana/mainnet.json
+solana config get
+solana balance
+.................................................................
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets_11_20 -n 10   --env mainnet-beta  --keypair ~/.config/solana/mainnet.json   
+arweave-nft assets_11_20  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e mainnet-beta
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets_11_20 -n 10  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
+ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
+ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --price 0.000001  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz 
+.................................................................
+
+.................................................................
+ ts-node  ./js/packages/cli/src/candy-machine-cli.ts  mint_one_token --env mainnet-beta  --keypair ~/.config/solana/mainnet.json  
+
+****************************************************************
+
+
+
+****************************************************************
+MAIN NET-MINTING
+----------------------------------------------------------------
+1. clear temp cache
+2. resources starting ffrom 0
+3. max 10
+.................................................................
+solana config set --url https://solana--mainnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
+solana config set  --keypair ~/.config/solana/mainnet.json
+solana config get
+solana balance
+.................................................................
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets_11_20 -n 10  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
+ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
+.................................................................
+4.Change OnChain to false
+.................................................................
+arweave-nft assets_11_20  --force-upload  --assets-from-json  -e mainnet-beta -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json
+.................................................................
+5.Change OnChain to true
+.................................................................
+ ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.000001 --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+.................................................................
+wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+create_candy_machine finished. candy machine pubkey: CWyeTJ6S8X9qKT4oXEffsgqEceb7NpzkkUDYhZdLBruF
+.................................................................
+ ts-node  ./js/packages/cli/src/candy-machine-cli.ts  mint_one_token --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
+
+****************************************************************
 
 
 ts-node ./js/packages/cli/src/candy-machine-cli.ts upload ./assets1 -n 1  --env devnet  --keypair ~/.config/solana/id.json 
@@ -60,7 +148,7 @@ ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets10 -n 11  --env 
 ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets  -n 67  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
 
 
-arweave-nft  --force-upload  --assets-from-json  -e mainnet-beta -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json assets
+arweave-nft  --force-upload  --assets-from-json  -e mainnet-beta -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json assets11_20
 
 ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
 
