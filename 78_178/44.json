@@ -1,0 +1,48 @@
+{
+    "name":  "DotVar1-V1 #122",
+    "symbol":  "DV1",
+    "description":  "Algorithm Generated Unique Variations Graphics where dots and circles constructed fluid structures connect and meet one another. #122 of 1965",
+    "seller_fee_basis_points":  "1000",
+    "image":  "44.png",
+    "attributes":  [
+                       {
+                           "trait_type":  "structure",
+                           "value":  "no"
+                       },
+                       {
+                           "trait_type":  "dots",
+                           "value":  "7"
+                       },
+                       {
+                           "$trait_type":  "circles",
+                           "value":  "6"
+                       },
+                       {
+                           "trait_type":  "grid",
+                           "value":  "64"
+                       }
+                   ],
+    "collection":  {
+                       "name":  "DotVar V1",
+                       "family":  "BotsBits"
+                   },
+    "properties":  {
+                       "files":  [
+                                     {
+                                         "uri":  "44.png",
+                                         "type":  "image/png"
+                                     },
+                                     {
+                                         "uri":  "44.svg",
+                                         "type":  "image/svg+xml"
+                                     }
+                                 ],
+                       "category":  "image",
+                       "creators":  [
+                                        {
+                                            "address":  "GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz",
+                                            "share":  100
+                                        }
+                                    ]
+                   }
+}

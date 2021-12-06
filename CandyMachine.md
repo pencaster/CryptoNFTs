@@ -2,6 +2,19 @@
 https://docs.metaplex.com/create-candy/prepare-assets
 https://hackmd.io/@levicook/HJcDneEWF
 
+
+Unix Time Stamp: https://www.unixtimestamp.com/
+
+
+# connection type - options are devnet and mainnet-beta
+NEXT_PUBLIC_CONNECTION_NETWORK=devnet
+
+# rpc http endpoints (ex: https://api.devnet.solana.com)
+NEXT_PUBLIC_SOLANA_RPC_HOST_DEVNET=https://api.devnet.solana.com
+NEXT_PUBLIC_SOLANA_RPC_HOST_MAINNET_BETA=https://api.mainnet-beta.solana.com
+
+
+
 $ solana --version
 $ cd js
 $ yarn install
@@ -57,26 +70,34 @@ BUG: Cannot add to candy machine
 https://github.com/metaplex-foundation/metaplex/issues/884
 
 
+#Get $SOL
+solana airdrop 10
+
+
 ****************************************************************
 DEVNET-MINTING
 ----------------------------------------------------------------
 1. clear temp cache
-2. resources starting ffrom 0
-3. max 10
+2. resources starting from 0
 .................................................................
 solana config set --url https://solana--devnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
 solana config set  --keypair ~/.config/solana/id.json
 solana config get
 solana balance
 .................................................................
-ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets_11_20 -n 10  --env devnet --keypair ~/.config/solana/id.json  
-arweave-nft assets_11_20  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e devnet
-ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets_11_20 -n 10  --env devnet --keypair ~/.config/solana/id.json  
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 78_178 -n 101  --env devnet --keypair ~/.config/solana/id.json  
+arweave-nft 78_178  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e devnet
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 78_178 -n 101  --env devnet --keypair ~/.config/solana/id.json  
 ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env devnet --keypair ~/.config/solana/id.json 
 ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --price 0.000001  --env devnet --keypair ~/.config/solana/id.json --sol-treasury-account 3mgEMZZ4jYCCc9N461PdDD423BEHWL7yCmwwKSozowE8 
 .................................................................
 wallet public key: 3mgEMZZ4jYCCc9N461PdDD423BEHWL7yCmwwKSozowE8
-create_candy_machine finished. candy machine pubkey: 2fWvEqjhsCHBsCsektDbDVKmE7M28jwusur7XG8mWSsm
+create_candy_machine finished. candy machine pubkey: E5oaNckedBsVfk1mWoBR41w4q1ZeuVBWuM3MF8q2Rdr6
+{"program":{"uuid":"9zh6vw","config":"9zh6vwTfZX3yBHmaUPFNZRoACDq5ipUfcYSEyQy9H1HE"}
+.................................................................
+ts-node ./js/packages/cli/src/candy-machine-cli.ts update_candy_machine --env devnet --keypair ~/.config/solana/id.json  --price 0.8 --date "05 Dec 2021 18:00:00 GMT"
+ - updated startDate timestamp: 1638683100 (05 Dec 2021 05:45:00 GMT)
+ - updated price: 800000000 lamports (0.8 SOL)
 .................................................................
  ts-node  ./js/packages/cli/src/candy-machine-cli.ts  mint_one_token --env devnet --keypair ~/.config/solana/id.json  
 
@@ -88,19 +109,32 @@ MAINNET-MINTING
 ----------------------------------------------------------------
 
 .................................................................
-solana config set --url https://solana--devnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
-solana config set  --keypair ~/.config/solana/id.json
+solana config set --url https://solana--mainnet.datahub.figment.io/apikey/d3e731703252f255a2eaa357e254cd57
+solana config set  --keypair ~/.config/solana/mainnet.json
 solana config get
 solana balance
 .................................................................
-ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets -n 78  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json  
-arweave-nft assets  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e mainnet-beta
-ts-node ./js/packages/cli/src/candy-machine-cli.ts upload assets -n 78  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json  
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 78_178 -n 101  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
+arweave-nft 78_178  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e mainnet-beta
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 78_178 -n 101  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
 ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
 ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.000001 --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
 .................................................................
+
+wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+create_candy_machine finished. candy machine pubkey: 48QNCC4iHBbu1SdfhKcEg2oDmfCW1aSuFGFFz8fNN79B
+
+
+.................................................................
+wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+create_candy_machine finished. candy machine pubkey: BBe3ADD1C1GfX2BqXkzaemrhKNYKhpPJUUfxknaBSFcK
+ - updated startDate timestamp: 1638727200 (05 Dec 2021 18:00:00 GMT)
+ - updated price: 800000000 lamports (0.8 SOL
+.................................................................
 wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
 create_candy_machine finished. candy machine pubkey: 8bwHCA6dUsPNryYUqm7BnW225xZAcnwPQu1uCqpPdnTM
+.................................................................
+ts-node ./js/packages/cli/src/candy-machine-cli.ts update_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json  --price 0.0001 --date "05 Dec 2021 17:00:00 GMT"
 .................................................................
  ts-node  ./js/packages/cli/src/candy-machine-cli.ts  mint_one_token --env mainnet-beta  --keypair ~/.config/solana/mainnet.json   
 
@@ -155,7 +189,7 @@ arweave-nft assets_11_20  --force-upload  --assets-from-json  -e mainnet-beta -k
 .................................................................
 5.Change OnChain to true
 .................................................................
- ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.000001 --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+ ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.000001 --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz 
 .................................................................
 wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
 create_candy_machine finished. candy machine pubkey: CWyeTJ6S8X9qKT4oXEffsgqEceb7NpzkkUDYhZdLBruF
@@ -197,7 +231,7 @@ ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env d
 
 
 
-ts-node ./js/packages/cli/src/candy-machine-cli.ts update_candy_machine --env devnet --keypair ~/.config/solana/id.json --price 1 --date "22 Sep 2021 00:12:00 GMT"
+ts-node ./js/packages/cli/src/candy-machine-cli.ts update_candy_machine --env devnet --keypair ~/.config/solana/id.json --price 0.001 --date "22 Sep 2021 00:12:00 GMT"
 
 ts-node ./js/packages/cli/src/candy-machine-cli.ts update_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.00001 --date "22 Sep 2021 00:12:00 GMT"
 
