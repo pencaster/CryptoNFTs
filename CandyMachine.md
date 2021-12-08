@@ -60,7 +60,10 @@ ts-node  ./js/packages/cli/src/candy-machine-cli.ts  help
 
 Recover Funds!!!!
 --------------
+MAINNET
 ts-node ./js/packages/cli/src/candy-machine-cli.ts  withdraw   --env mainnet-beta  --keypair ~/.config/solana/mainnet.json  
+DEVNET
+ts-node ./js/packages/cli/src/candy-machine-cli.ts  withdraw    --env devnet --keypair ~/.config/solana/id.json  
 _____________
 
 trace:
@@ -85,7 +88,7 @@ solana config set  --keypair ~/.config/solana/id.json
 solana config get
 solana balance
 .................................................................
-ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 78_178 -n 101  --env devnet --keypair ~/.config/solana/id.json  
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 10_86 -n 78  --env devnet --keypair ~/.config/solana/id.json  
 arweave-nft 78_178  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e devnet
 ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 78_178 -n 101  --env devnet --keypair ~/.config/solana/id.json  
 ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env devnet --keypair ~/.config/solana/id.json 
@@ -114,17 +117,29 @@ solana config set  --keypair ~/.config/solana/mainnet.json
 solana config get
 solana balance
 .................................................................
-ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 78_178 -n 101  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
-arweave-nft 78_178  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e mainnet-beta
-ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 78_178 -n 101  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 10_86 -n 78  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
+arweave-nft 10_86  --force-upload  --assets-from-json   -k ~/.config/arweave/arweave-key-tZUgSIBcxE6O69uIRx4WU3G7-qmP25Tu_JevmjU7Vxw.json -e mainnet-beta
+ts-node ./js/packages/cli/src/candy-machine-cli.ts upload 10_86 -n 78  --env mainnet-beta  --keypair ~/.config/solana/mainnet.json
 ts-node ./js/packages/cli/src/candy-machine-cli.ts verify --env mainnet-beta  --keypair ~/.config/solana/mainnet.json 
 ts-node  ./js/packages/cli/src/candy-machine-cli.ts create_candy_machine --env mainnet-beta  --keypair ~/.config/solana/mainnet.json --price 0.000001 --sol-treasury-account GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
-.................................................................
 
+---------------------------------------------------------------------------
+FOR Sale Candy Machine:
+***************************************************************************
+wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
+create_candy_machine finished. candy machine 
+pubkey: 4o2MsoDxwybuN74qZRDsZL7bmgxFm2WEzvf3D8pyhzq4
+config: FPyp5LQDqZC2sD4XyK13hUARJHoh4DapASiqdUaV2MW
+***************************************************
+
+.................................................................
+Minting Candy Machine!
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
 create_candy_machine finished. candy machine pubkey: 48QNCC4iHBbu1SdfhKcEg2oDmfCW1aSuFGFFz8fNN79B
-
-
+REACT_APP_CANDY_MACHINE_CONFIG=EErwtjeeXdbReVVySxRaf35QeYPgkNr8RMpRNHY1UnSq
+REACT_APP_CANDY_MACHINE_ID=48QNCC4iHBbu1SdfhKcEg2oDmfCW1aSuFGFFz8fNN79B
+REACT_APP_TREASURY_ADDRESS=GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
 .................................................................
 wallet public key: GCAUb5oqe3yrzLqNSyh5yP38FPb97yLvQ5QnLGaLhBHz
 create_candy_machine finished. candy machine pubkey: BBe3ADD1C1GfX2BqXkzaemrhKNYKhpPJUUfxknaBSFcK
